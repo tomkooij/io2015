@@ -9,18 +9,20 @@ TEST = False
 DASH = '-'
 STAR = '*'
 
+
 # Uit het voorschrift van de olympiade
 def io_print(string):
     sys.stdout.write(str(string) + "\n")
     sys.stdout.flush()
 
+
 def print_halter(number_of_lines):
     halter = []
 
     # generate and print the top part of the "halter"
-    for linenumber in range(int(number_of_lines / 2)+1):
-        number_of_stars = int(number_of_lines - 2*linenumber)
-        line = linenumber * DASH+number_of_stars * STAR+linenumber * DASH
+    for linenumber in range(int(number_of_lines / 2) + 1):
+        number_of_stars = int(number_of_lines - 2 * linenumber)
+        line = linenumber * DASH + number_of_stars * STAR + linenumber * DASH
         io_print(line)
         if number_of_stars > 1:
             halter.append(line)
@@ -30,7 +32,7 @@ def print_halter(number_of_lines):
 
 if __name__ == '__main__':
     if TEST:
-        for N in range(1,42):
+        for N in range(1, 42):
             print("N = ", N)
             print_halter(2*N-1)
     else:
