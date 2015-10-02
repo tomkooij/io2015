@@ -1,6 +1,5 @@
 # Opgave A1
 from __future__ import division
-from __future__ import print_function
 
 import sys
 
@@ -16,7 +15,9 @@ def io_print(string):
     sys.stdout.flush()
 
 
-def print_halter(number_of_lines):
+def print_halter(N):
+
+    number_of_lines = 2 * N + 1
     halter = []
 
     # generate and print the top part of the "halter"
@@ -28,13 +29,14 @@ def print_halter(number_of_lines):
             halter.append(line)
 
     # pop the lines in reverse order to print the bottom part "halter"
-    [io_print(halter.pop()) for _ in range(len(halter))]
+    for _ in range(len(halter)):
+        io_print(halter.pop())
 
 if __name__ == '__main__':
     if TEST:
         for N in range(1, 42):
             print("N = ", N)
-            print_halter(2*N-1)
+            print_halter(N)
     else:
         N = int(raw_input("N="))
-        print_halter(2*N-1)
+        print_halter(N)
