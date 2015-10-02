@@ -9,7 +9,7 @@ TEST = False
 DASH = '-'
 STAR = '*'
 
-# Uit het voorbeeld van de olympiade
+# Uit het voorschrift van de olympiade
 def io_print(string):
     sys.stdout.write(str(string) + "\n")
     sys.stdout.flush()
