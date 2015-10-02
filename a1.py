@@ -18,14 +18,12 @@ def print_halter(number_of_lines):
     halter = []
 
     # generate and print the top part of the "halter"
-    for linenumber in range(int(number_of_lines)):
-        # eerste halter
-        if linenumber < (number_of_lines / 2):
-            number_of_stars = int(number_of_lines - 2*linenumber)
-            line = linenumber * DASH+number_of_stars * STAR+linenumber * DASH
-            io_print(line)
-            if number_of_stars > 1:
-                halter.append(line)
+    for linenumber in range(int(number_of_lines / 2)+1):
+        number_of_stars = int(number_of_lines - 2*linenumber)
+        line = linenumber * DASH+number_of_stars * STAR+linenumber * DASH
+        io_print(line)
+        if number_of_stars > 1:
+            halter.append(line)
 
     # pop the lines in reverse order to print the bottom part "halter"
     [io_print(halter.pop()) for _ in range(len(halter))]
