@@ -3,6 +3,7 @@ import sys
 
 TEST = False
 
+
 # Uit het voorschrift van de olympiade
 def io_print(string):
     sys.stdout.write(str(string) + "\n")
