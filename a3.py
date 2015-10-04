@@ -30,9 +30,10 @@ if __name__ == '__main__':
     counter = 0
 
     for getal in getallen:
+        # tel de getallen dit deelbaar zijn door 7 of een 7 in het getal hebben
         if (getal % 7 == 0) or (str(getal).find('7') != -1):
             if TEST:
                 print "DEBUG: gevonden:" , getal
             counter += 1
 
-    print counter
+    io_print(counter)
