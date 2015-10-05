@@ -17,7 +17,7 @@ def io_print(string):
 
 def print_halter(N):
 
-    number_of_lines = 2 * N + 1
+    number_of_lines = 2 * N - 1
     halter = []
 
     # generate and print the top part of the "halter"
@@ -38,5 +38,5 @@ if __name__ == '__main__':
             print("N = ", N)
             print_halter(N)
     else:
-        N = int(raw_input("N="))
+        N = int(raw_input(""))
         print_halter(N)
