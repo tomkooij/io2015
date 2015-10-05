@@ -5,7 +5,7 @@ from __future__ import print_function
 import sys
 
 TEST = 0
-DEBUG = 0
+DEBUG = 1
 
 
 # Uit het voorschrift van de olympiade
@@ -62,7 +62,7 @@ if __name__ == '__main__':
                 '1010101010',
                 '0010010010']
     else:
-        bord = [int(raw_input("")) for _ in range(10)]
+        bord = [raw_input("") for _ in range(10)]
 
     if DEBUG:
         print(bord)
