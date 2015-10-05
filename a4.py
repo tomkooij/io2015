@@ -37,7 +37,7 @@ def selecteer_fotos(stapel):
 
     while (len(stapel) > 0):
         stapel = selecteer_foto(stapel)
-        if len(stapel) < 10:
+        if (len(stapel) < 10):
                 break
 
 if __name__ == '__main__':
@@ -45,10 +45,10 @@ if __name__ == '__main__':
         N = 22
         stapel = [9, 12, 17, 22, 8, 1, 20, 3, 15, 21, 2, 19, 4,
                   18, 5, 16, 14, 13, 11, 7, 6, 10]
-        assert(len(stapel) == N)
-        selecteer_fotos(stapel)
-
+        #stapel = range(N)
     else:
         N = int(raw_input(""))
-        lijst = [int(raw_input("")) for _ in range(N)]
-        selecteer_fotos(lijst)
+        stapel = [int(raw_input("")) for _ in range(N)]
+
+    assert(len(stapel) == N)
+    selecteer_fotos(stapel)
