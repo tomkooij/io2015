@@ -13,6 +13,7 @@ def io_print(string):
     sys.stdout.write(str(string) + "\n")
     sys.stdout.flush()
 
+
 def selecteer_foto(lijst):
 
     if DEBUG:
@@ -43,8 +44,8 @@ if __name__ == '__main__':
     if TEST:
         N = 22
         stapel = [9, 12, 17, 22, 8, 1, 20, 3, 15, 21, 2, 19, 4,
-                    18, 5, 16, 14, 13, 11, 7, 6, 10]
-        assert(len(stapel)==N)
+                  18, 5, 16, 14, 13, 11, 7, 6, 10]
+        assert(len(stapel) == N)
         selecteer_fotos(stapel)
 
     else:

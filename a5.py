@@ -20,12 +20,12 @@ def vind_volgende(bord):
             if karakter == '0':
                 return rij, kolom
     # niet gevonden
-    return (-1,-1)
+    return (-1, -1)
 
 
 def kleur_vlak_in(rij, kolom, bord):
 
-    bord = kleur_in(rij,kolom, bord)
+    bord = kleur_in(rij, kolom, bord)
 
     # boven
     if (rij > 0) and (bord[rij-1][kolom] == '0'):
