@@ -5,7 +5,7 @@ from __future__ import print_function
 import sys
 
 TEST = 0
-DEBUG = 1
+DEBUG = 0
 
 
 # Uit het voorschrift van de olympiade
