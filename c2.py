@@ -68,6 +68,39 @@ def sorteer_naar_achter(rij):
     return recept
 
 
+def sorteer_naar_voor(rij):
+    gesorteerd = sorted(rij)
+    if DEBUG: print(gesorteerd)
+    if rij == gesorteerd:
+        return []
+
+    recept = []
+    # bepaal welke nu de max is
+    # zoek de plek in de rij
+    # keer om
+    for i in range(len(rij)):
+        if rij[i] != gesorteerd[i]:
+            if i == len(rij)-3:
+                if rij[len(rij)-2]==gesorteerd[len(rij)-2]:
+                    if DEBUG:
+                        print("SHORTCUT")
+                        rij = omkeren(rij,len(rij)-3,len(rij)-1)
+                        print (rij)
+                    recept.append((len(rij)-3,len(rij)-1))
+                    return recept
+            eerste = i
+            laatste = rij.index(min(rij[i:]))
+            if (eerste == laatste):
+                print("STOP",eerste, laatste, rij)
+                assert(0)
+            rij = omkeren(rij, eerste, laatste)
+            if DEBUG:
+                print("*", laatste, "(", eerste+1, ",", laatste+1, ")", rij)
+            recept.append((eerste,laatste))
+
+    return recept
+
+
 if __name__ == '__main__':
     if TEST == 1:
         N = 10
@@ -97,6 +130,10 @@ if __name__ == '__main__':
         print(rij)
 
     recept = sorteer_naar_achter(rij)
+    alternatief = sorteer_naar_voor(rij)
+    if len(alternatief) < len(recept):
+        if DEBUG: print("alternatief is KORTER!")
+        recept = alternatief
 
     if DEBUG:
         check_sorteer_recept(rij, recept)
