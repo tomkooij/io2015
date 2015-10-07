@@ -6,7 +6,7 @@ import sys
 import random
 
 TEST = 0
-DEBUG = 1
+DEBUG = 0
 
 
 # Uit het voorschrift van de olympiade
@@ -81,9 +81,16 @@ if __name__ == '__main__':
         N = random.randint(2,20)
         rij = list(set([random.randint(0,100) for _ in range(N)]))
         random.shuffle(rij)
+    elif TEST == 4:
+        N = 10
+        rij = [5, 7, 4, 22, 23, 5, 27, 1, 14, 21] # dubbel
     else:
         N = int(raw_input())
-        rij = [int(x) for x in str(raw_input()).split(' ')]
+        getallen = str(raw_input()).split(' ')
+        rij = []
+        for getal in getallen:
+            if getal != '':
+                rij.append(int(getal))
         assert(len(rij) == N)
 
     if DEBUG:
