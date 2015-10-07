@@ -3,10 +3,10 @@ from __future__ import division
 from __future__ import print_function
 
 import sys
-from random import shuffle
+import random
 
 TEST = 0
-DEBUG = 0
+DEBUG = 1
 
 
 # Uit het voorschrift van de olympiade
@@ -26,8 +26,7 @@ def omkeren(rij, eerste,tweede):
     assert(tweede <= len(rij)-1)
     return rij[0:eerste]+list(reversed(rij[eerste:tweede+1]))+rij[tweede+1:]
 
-def sorteer(rij):
-    recept = [(6,9),(5,8),(4,7),(3,6),(1,4),(1,3),(0,2)]
+def check_sorteer_recept(rij, recept):
 
     for (eerste, tweede) in recept:
         rij = omkeren(rij, eerste, tweede)
@@ -38,7 +37,7 @@ def sorteer(rij):
 
 def sorteer_naar_achter(rij):
     gesorteerd = sorted(rij)
-
+    if DEBUG: print(gesorteerd)
     if rij == gesorteerd:
         return []
 
@@ -46,24 +45,25 @@ def sorteer_naar_achter(rij):
     # bepaal welke nu de max is
     # zoek de plek in de rij
     # keer om
-    for kolom in range(len(rij)-1,0,-1):
-        fout = [i for i,j in zip(rij,gesorteerd) if i != j]  # welke staan niet goed
-        # als slecht 2 posities fout, wissel alleen die
-        if len(fout) == 2:
-            eerste = rij.index(fout[0])
-            laatste = rij.index(fout[1])
+    for i in range(len(rij)-1,0,-1):
+        if rij[i] != gesorteerd[i]:
+            if i == 2:
+                if rij[1]==gesorteerd[1]:
+                    if DEBUG:
+                        print("SHORTCUT")
+                        rij = omkeren(rij,0,2)
+                        print (rij)
+                    recept.append((0,2))
+                    return recept
+            laatste = i
+            eerste = rij.index(max(rij[0:i]))
+            if (eerste == laatste):
+                print("STOP",eerste, laatste, rij)
+                assert(0)
+            rij = omkeren(rij, eerste, laatste)
             if DEBUG:
-                rij = omkeren(rij, eerste, laatste)
-                print("laatste: ", rij)
-            recept.append((eerste, laatste))
-            return recept
-        grootste = max(fout)
-        laatste = len(fout)-1
-        eerste = rij.index(grootste)
-        rij = omkeren(rij, eerste, laatste)
-        if DEBUG:
-            print("*", laatste, "(", eerste+1, ",", laatste+1, ")", rij)
-        recept.append((eerste,laatste))
+                print("*", laatste, "(", eerste+1, ",", laatste+1, ")", rij)
+            recept.append((eerste,laatste))
 
     return recept
 
@@ -73,22 +73,26 @@ if __name__ == '__main__':
         N = 10
         rij = [5, 20, 4, 22, 23, 26, 27, 1, 14, 21]
     elif TEST == 2:
-        pass
-    elif TEST == 3:
         N = 10
         rij = range(N)
-        shuffle(rij)
+        random.shuffle(rij)
 
+    elif TEST == 3:
+        N = random.randint(2,20)
+        rij = list(set([random.randint(0,100) for _ in range(N)]))
+        random.shuffle(rij)
     else:
         N = int(raw_input())
         rij = [int(x) for x in str(raw_input()).split(' ')]
-
-    assert(len(rij) == N)
+        assert(len(rij) == N)
 
     if DEBUG:
         print(rij)
 
     recept = sorteer_naar_achter(rij)
+
+    if DEBUG:
+        check_sorteer_recept(rij, recept)
 
     io_print(len(recept))
     for (eerste,laatste) in recept:
