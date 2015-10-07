@@ -5,8 +5,8 @@ from __future__ import print_function
 import sys
 from random import shuffle
 
-TEST = 1
-DEBUG = 1
+TEST = 0
+DEBUG = 0
 
 
 # Uit het voorschrift van de olympiade
@@ -92,4 +92,4 @@ if __name__ == '__main__':
 
     io_print(len(recept))
     for (eerste,laatste) in recept:
-        io_print(str(eerste)+' '+str(laatste))
+        io_print(str(eerste+1)+' '+str(laatste+1))
