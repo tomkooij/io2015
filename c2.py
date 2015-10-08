@@ -67,6 +67,42 @@ def sorteer_naar_achter(rij):
 
     return recept
 
+def sorteer_op_lange_afstand(rij):
+
+    gesorteerd = sorted(rij)
+    if DEBUG: print(rij)
+
+    # kleinste en grootste die al op hun plek staan
+    kleinste = 0
+    grootste = len(rij)-1
+
+    rest = list(rij)  # copy!
+    recept = []
+
+    while rij != gesorteerd:
+        # bepaal afstand naar links (kleinste)
+        links = rij.index(min(rest)) - kleinste
+        rechts = grootste - rij.index(max(rest))
+        if DEBUG:
+            print("links, rechts:",links, rechts)
+        if links <= rechts:
+            laatste = grootste
+            grootste -= 1
+            eerste = rij.index(max(rest))
+            rest.remove(max(rest))
+        else:
+            eerste = kleinste
+            kleinste += 1
+            laatste = rij.index(min(rest))
+            rest.remove(min(rest))
+        rij = omkeren(rij, eerste, laatste)
+        if DEBUG:
+            print("*", laatste, "(", eerste+1, ",", laatste+1, ")", rij)
+            print("rest", rest)
+        recept.append((eerste,laatste))
+
+    return recept
+
 
 def sorteer_naar_voor(rij):
     gesorteerd = sorted(rij)
@@ -130,10 +166,13 @@ if __name__ == '__main__':
         print(rij)
 
     recept = sorteer_naar_achter(rij)
-    alternatief = sorteer_naar_voor(rij)
-    if len(alternatief) < len(recept):
-        if DEBUG: print("alternatief is KORTER!")
-        recept = alternatief
+
+    alt_methods = [sorteer_naar_voor, sorteer_op_lange_afstand]
+
+    for sorteer_methode in alt_methods:
+        alternatief = sorteer_methode(rij)
+        if len(alternatief) < len(recept):
+            recept = alternatief
 
     if DEBUG:
         check_sorteer_recept(rij, recept)
