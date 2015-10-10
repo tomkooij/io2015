@@ -1,6 +1,4 @@
-afstanden = [19, 41, 65, 28, 17]+ [22, 46, 33, 16] + [24, 55, 38] + [79, 62] + [17]
-
-afstanden_lijst = sorted(set(afstanden))
+afstanden_lijst = [19, 41, 65, 28, 17]+ [22, 46, 33, 16] + [24, 55, 38] + [79, 62] + [17]
 
 
 for i in range(9):
@@ -14,3 +12,4 @@ for i in range(9):
 
 print afstanden_lijst
 print "Oplossing: ", len(afstanden_lijst)
+print "DIT IS NIET DE JUIST OPLOSSING! Opgave is veel makkelijker met een tekening... :("
