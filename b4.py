@@ -135,13 +135,15 @@ def leg_voorbeeld(bord):
 
 if __name__ == '__main__':
 
-    leeg_bord = [['.' for x in range(MAX_X_BORD)] for y in range(MAX_Y_BORD)]
-    volbord = leg_voorbeeld(leeg_bord)
-    print_bord(volbord)
-    print bord_area(volbord)
-    rest = ['DELFT','EINDHOVEN','NYMEGEN','TWENTE']
-    for case in permutations(rest):
+    #leeg_bord = [['.' for x in range(MAX_X_BORD)] for y in range(MAX_Y_BORD)]
+    #volbord = leg_voorbeeld(leeg_bord)
+    #print_bord(volbord)
+    #print bord_area(volbord)
+    #rest = ['DELFT','EINDHOVEN','NYMEGEN','TWENTE']
+    for case in permutations(woorden):
+        leeg_bord = [['.' for x in range(MAX_X_BORD)] for y in range(MAX_Y_BORD)]
         print case
-        do(volbord, case)
+        leg_woord(leeg_bord,5,2,VERTICAAL,case[0])
+        do(leeg_bord, case[1:])
     print "min = ", RECORD
     print_bord(RECORDBORD)
