@@ -2,20 +2,23 @@
 # woorden leggen
 
 from copy import deepcopy
+from random import shuffle
+from itertools import permutations
 
 woorden = ['DELFT', 'EINDHOVEN', 'LEIDEN', 'NYMEGEN', 'TWENTE']
 
 HORIZONTAAL = 0
 VERTICAAL = 1
 
-MAX_X_BORD = 18
-MAX_Y_BORD = 18
+MAX_X_BORD = 30
+MAX_Y_BORD = 30
 
 RECORD = 70
+RECORDBORD = []
 
 def print_bord(bord):
-    for y in range(MAX_Y_BORD):
-        print bord[y]
+    for y in range(15):
+        print bord[y][0:15]
 
 def bord_area(bord):
     x_min = MAX_X_BORD
@@ -41,7 +44,7 @@ def bord_area(bord):
 
 
 def leg_woord(bord, x, y, orientatie, woord):
-    if x > MAX_X_BORD-5 or y > MAX_Y_BORD-5:
+    if x > MAX_X_BORD-9 or y > MAX_Y_BORD-9:
         return False
 
     if orientatie == HORIZONTAAL:
@@ -74,9 +77,9 @@ def leg_woord(bord, x, y, orientatie, woord):
 
 def do(bord, woordenlijst):
 
-    global RECORD
+    global RECORD, RECORDBORD
 
-    print("ENTERING RECURSION!", woordenlijst)
+    #print("ENTERING RECURSION!", woordenlijst)
     hetbord = deepcopy(bord)
     woord = woordenlijst[0]
 
@@ -100,7 +103,8 @@ def do(bord, woordenlijst):
                             if area <= RECORD:
                                 RECORD = area
                                 print "RECORD! ", area
-                                print_bord(tmp_bord)
+                                RECORDBORD = deepcopy(tmp_bord)
+                                #print_bord(tmp_bord)
                             #print "Branch finished!"
 
                     tmp1_bord = deepcopy(hetbord)
@@ -114,15 +118,16 @@ def do(bord, woordenlijst):
                             if area <= RECORD:
                                 RECORD = area
                                 print "RECORD! ", area
-                                print_bord(tmp_bord)
+                                RECORDBORD = deepcopy(tmp_bord)
+                                #print_bord(tmp_bord)
                             #print "Branch finished!"
 
 
-    print "END OF do() ", woordenlijst
+    #print "END OF do() ", woordenlijst
 
 def leg_voorbeeld(bord):
-    print leg_woord(bord, 2, 1, HORIZONTAAL, 'DELFT')
-    print leg_woord(bord, 1, 4, HORIZONTAAL, 'EINDHOVEN')
+    #print leg_woord(bord, 2, 1, HORIZONTAAL, 'DELFT')
+    #print leg_woord(bord, 1, 4, HORIZONTAAL, 'EINDHOVEN')
     print leg_woord(bord, 4, 1, VERTICAAL, 'LEIDEN')
     #print leg_woord(bord, 4, 6, HORIZONTAAL, 'NYMEGEN')
     #print leg_woord(bord, 9, 1, VERTICAAL, 'TWENTE')
@@ -134,4 +139,9 @@ if __name__ == '__main__':
     volbord = leg_voorbeeld(leeg_bord)
     print_bord(volbord)
     print bord_area(volbord)
-    do(volbord, ['NYMEGEN','TWENTE'])
+    rest = ['DELFT','EINDHOVEN','NYMEGEN','TWENTE']
+    for case in permutations(rest):
+        print case
+        do(volbord, case)
+    print "min = ", RECORD
+    print_bord(RECORDBORD)
