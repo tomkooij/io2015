@@ -36,7 +36,9 @@ VERTICAAL = 1
 MAX_X_BORD = 30
 MAX_Y_BORD = 30
 
-RECORD = 70
+RECORD = 100
+ABS_RECORD = 53
+
 RECORDBORD = []
 
 def print_bord(bord):
@@ -136,7 +138,7 @@ def do(bord, woordenlijst):
                         else:
                             area = bord_area(tmp_bord)
                             if area <= RECORD:
-                                if area == RECORD:
+                                if area <= ABS_RECORD:
                                     print_bord(tmp_bord)
                                 RECORD = area
                                 print "RECORD! ", area
@@ -153,7 +155,7 @@ def do(bord, woordenlijst):
                         else:
                             area = bord_area(tmp_bord)
                             if area <= RECORD:
-                                if area == RECORD:
+                                if area <= ABS_RECORD:
                                     print_bord(tmp_bord)
                                 RECORD = area
                                 print "RECORD! ", area
