@@ -37,13 +37,13 @@ MAX_X_BORD = 30
 MAX_Y_BORD = 30
 
 RECORD = 100
-ABS_RECORD = 53
+ABS_RECORD = 54
 
 RECORDBORD = []
 
 def print_bord(bord):
-    for y in range(2,25):
-        print bord[y][7:25]
+    for y in range(0,15):
+        print bord[y][5:25]
 
 def bord_area(bord):
     x_min = MAX_X_BORD
@@ -147,19 +147,19 @@ def do(bord, woordenlijst):
                             #print "Branch finished!"
 
                     tmp1_bord = deepcopy(hetbord)
-                    if leg_woord(tmp_bord, x,y-offset, VERTICAAL, woord):
+                    if leg_woord(tmp1_bord, x,y-offset, VERTICAAL, woord):
                         #print "VERTICAAL! :",x,y,offset
                         #print_bord(tmp_bord)
                         if len(woordenlijst) > 1:
-                            do(tmp_bord, woordenlijst[1:])
+                            do(tmp1_bord, woordenlijst[1:])
                         else:
-                            area = bord_area(tmp_bord)
+                            area = bord_area(tmp1_bord)
                             if area <= RECORD:
                                 if area <= ABS_RECORD:
-                                    print_bord(tmp_bord)
+                                    print_bord(tmp1_bord)
                                 RECORD = area
                                 print "RECORD! ", area
-                                RECORDBORD = deepcopy(tmp_bord)
+                                RECORDBORD = deepcopy(tmp1_bord)
                                 #print_bord(tmp_bord)
                             #print "Branch finished!"
 
