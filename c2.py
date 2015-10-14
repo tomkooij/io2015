@@ -5,8 +5,8 @@ from __future__ import print_function
 import sys
 import random
 
-TEST = 0
-DEBUG = 0
+TEST = 3
+DEBUG = 1
 
 
 # Uit het voorschrift van de olympiade
@@ -166,6 +166,7 @@ if __name__ == '__main__':
         print(rij)
 
     recept = sorteer_naar_achter(rij)
+    naam_recept = 'sorteer_naar_achter'
 
     alt_methods = [sorteer_naar_voor, sorteer_op_lange_afstand]
 
@@ -173,9 +174,11 @@ if __name__ == '__main__':
         alternatief = sorteer_methode(rij)
         if len(alternatief) < len(recept):
             recept = alternatief
+            naam_recept = sorteer_methode
 
     if DEBUG:
         check_sorteer_recept(rij, recept)
+        print ("winnende methode: ", sorteer_methode)
 
     io_print(len(recept))
     for (eerste,laatste) in recept:
