@@ -4,9 +4,10 @@ from __future__ import print_function
 
 import sys
 import random
+import copy
 
-TEST = 3
-DEBUG = 1
+TEST = 0
+DEBUG = 0
 
 
 # Uit het voorschrift van de olympiade
@@ -136,6 +137,56 @@ def sorteer_naar_voor(rij):
 
     return recept
 
+def findBP(lijst):
+    lst = [0]
+    for i in xrange(1, len(lijst)):
+        if abs(lijst[i-1] - lijst[i]) > 1:
+            lst.append(i)
+    lst.append(len(lijst))
+    return lst
+
+def transform_to_range(rij):
+    """
+    maak van een oplopende lijst een lijst range(len(rij)) in dezelfde volgorde
+    [5, 20, 4, 22, 23, 26, 27, 1, 14, 21]
+    wordt:
+    [2, 4, 1, 6, 7, 8, 9, 0, 3, 5]
+    """
+    s = sorted(rij)
+    return [s.index(rij[x]) for x in range(len(s))]
+
+
+def generate_moves(rij):
+    """
+    genereer alle mogelijke omkeer reversals die minstens 1 minder bp oplevert
+
+    returns: [(aantal bp minder, i, j), ...]
+    """
+    resultaat = []
+    print ("rij = ", rij)
+    bp = findBP(rij)
+    print("bp = ", bp)
+    aantal_bp = len(bp)
+
+    for i in range(aantal_bp):
+        for j in range(1,aantal_bp):
+            #print (i,j)
+            #print (bp[i], bp[j])
+            eerste, laatste = bp[i],bp[j]
+            if laatste-eerste > 1:
+                nw_rij = omkeren(rij, eerste, laatste-1)
+                delta = aantal_bp - len(findBP(nw_rij))
+                print("nw_Rij", nw_rij, delta)
+                if delta > 0:
+                    resultaat.append([delta, (eerste, laatste-1)])
+
+    return resultaat
+
+
+def sort_by_breakpoints(rij):
+    pass
+
+
 
 if __name__ == '__main__':
     if TEST == 1:
@@ -165,6 +216,11 @@ if __name__ == '__main__':
     if DEBUG:
         print(rij)
 
+    # maak een kopie om te testen
+    originele_rij = copy.deepcopy(rij)
+
+    transform_to_range(rij)
+
     recept = sorteer_naar_achter(rij)
     naam_recept = 'sorteer_naar_achter'
 
@@ -177,7 +233,7 @@ if __name__ == '__main__':
             naam_recept = sorteer_methode
 
     if DEBUG:
-        check_sorteer_recept(rij, recept)
+        check_sorteer_recept(originele_rij, recept)
         print ("winnende methode: ", sorteer_methode)
 
     io_print(len(recept))
