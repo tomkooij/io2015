@@ -4,6 +4,7 @@ from random import choice
 sign = lambda x: int(copysign(1, x))
 
 N = 4   # 4x4 bord
+
 UP = 1
 DOWN = 2
 LEFT = 3
@@ -26,9 +27,9 @@ class Bord(object):
 
     def __init__(self, startpos = None):
         if startpos is not None:
-            self.bord = startpos
+            self.bord = [startpos]
         else:
-            self.bord = [[None] * N for i in range(N)]
+            self.bord = [[0] * N for i in range(N)]
 
     def show(self):
         for i in range(N):
@@ -50,21 +51,27 @@ class Bord(object):
         if direction==LEFT:
             self.merge()
 
-        if direction==RIGHT:
+        elif direction==RIGHT:
             self.merge(mergeleft=False)
 
-        if direction==UP:
+        elif direction==UP:
             # omhoog is 3x linksom, links merge, 1x linksom
             self.rotate(3)
             self.merge()
             self.rotate(1)
 
-        if direction==DOWN:
+        elif direction==DOWN:
             # omlaag ook via rotaties.
             self.rotate(1)
             self.merge()
             self.rotate(3)
 
+        else:
+            print "illegal move: ", direction
+            assert(0)
+
+    def place(self, row, column, kleur):
+        self.bord[row][column] = kleur
 
     def merge(self, mergeleft=True):
         for i in range(N):
@@ -141,27 +148,37 @@ class Bord(object):
 
 
 if __name__ == '__main__':
-    b = Bord([[1,-1,0,0],[1,0,0,-1],[-1,1,1,0],[-1,0,0,0]])
+    """
+    testgame from caia
+    """
+
+    MOVES=['12', '33', '22', '11', 'R', 'L', '22', '41', '42', '12', 'U', 'R', '31', '33', '11', '41', 'R', 'D', '13', '21', '41', '32', 'U', 'D', '21', '23', '13', '22', 'U', 'D', '12', '23', '13', '22', 'R', 'U', '11', '44', '33', '43', 'D', 'R', '12', '41', '32', '13', 'R', 'L', '24', '34', '14', '23', 'R', 'U', '44', '32', '41', '33', 'U', 'D', '14', '31', '33', '13', 'R', 'U', '41', '23', '44', '31', 'U', 'R', '43', '32', '23', '41', 'R', 'L', '24', '33', '43', '42', 'U', 'L', '34', '43', '24', '32', 'R', 'R', '41', '43', '32', '31', 'D', 'U', '21', '34', '41', '31', 'R', 'L', '34', '42', '33', '32', 'U', 'R', '42', '31', '11', '21', 'D', 'U', '31', '44', '21', '41', 'U', 'L', '33', '42', '34', '23', 'L', 'R', '42', '43', '21', '32', 'L', 'R', '43', '41', '31', '42', 'U', 'D', '12', '14', '21', '22', 'L', 'U', '14', '43', '34', '24', 'L', 'D', '24', '11', '13', '34', 'R', 'L', '13', '14', '24', '34', 'D', 'U', '42', '34', '44', '33', 'R', 'U', '43', '21', '41', '44', 'R', 'L', '23', '33', '44', '13', 'D', 'U', '33', '24', '34', '43', 'L', 'R', '12', '21', '11', '32', 'U', 'D', '11', '42', '32', '13', 'U', 'L', '33', '24', '34', '44', 'R', 'L', '33', '42', '34', '43', 'U', 'R', '31', '43', '42', '41', 'R', 'U', '42', '41'];
+
+    b = Bord()
     b.show()
-    print "R:"
-    b.move(RIGHT)
-    b.show()
-    print b._free_squares()
-    print "L:"
-    b.move(LEFT)
-    b.show()
-    print "Up:"
-    b.move(UP)
-    b.show()
-    print "Down:"
-    b.move(DOWN)
-    b.show()
-    print "Left"
-    b.move(LEFT)
-    b.show()
-    print "random RED: ",
-    print b.place_random_tile(RED)
-    b.show()
-    print "random BLUE: ",
-    print b.place_random_tile(BLUE)
-    b.show()
+    print "Start!"
+
+    zetteller = 0  # hulpje om blauw, rood, rood, blauw t regelen
+    aanzet = [BLUE, RED, RED, BLUE]
+
+    for move in MOVES:
+        print "Move : ", move
+        if move in ['U', 'D', 'R', 'L']:
+            if move == 'U':
+                b.move(UP)
+            elif move == 'D':
+                b.move(DOWN)
+            elif move == 'R':
+                b.move(RIGHT)
+            elif move == 'L':
+                b.move(LEFT)
+            else:
+                assert(0)
+            zetteller = 0
+        else:
+
+            print "place ", aanzet[zetteller]
+            b.place(int(move[0])-1, int(move[1])-1, aanzet[zetteller])
+            zetteller += 1 # de ander is nu aan zet
+        b.show()
+        raw_input()
