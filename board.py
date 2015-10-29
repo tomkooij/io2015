@@ -166,6 +166,17 @@ class Bord(object):
             print >>sys.stderr, "illegal move!"
             assert(0)
 
+    def score(self):
+        score = 0
+        for i in range(N):
+            for j in range(N):
+                score += abs(self.bord[i][j])
+        return score
+
+
+
+
+
 if __name__ == '__main__':
     """
     testgame from caia
@@ -189,4 +200,5 @@ if __name__ == '__main__':
         else:
             zetteller += 1 # de ander is nu aan zet
         b.show()
+        print b.score()
         raw_input()
