@@ -153,15 +153,15 @@ class Bord(object):
         move => str '23' of 'U'
         """
         if len(move)==2:
-            b.place(int(move[0])-1, int(move[1])-1, color)
+            self.place(int(move[0])-1, int(move[1])-1, color)
         elif move == 'U':
-            b.move(UP)
+            self.move(UP)
         elif move == 'D':
-            b.move(DOWN)
+            self.move(DOWN)
         elif move == 'R':
-            b.move(RIGHT)
+            self.move(RIGHT)
         elif move == 'L':
-            b.move(LEFT)
+            self.move(LEFT)
         else:
             print >>sys.stderr, "illegal move!"
             assert(0)
