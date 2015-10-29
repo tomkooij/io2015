@@ -1,4 +1,5 @@
 from math import copysign
+from random import choice
 
 sign = lambda x: int(copysign(1, x))
 
@@ -8,6 +9,8 @@ DOWN = 2
 LEFT = 3
 RIGHT = 4
 
+RED = 1
+BLUE = -1
 
 class Bord(object):
     """
@@ -114,16 +117,27 @@ class Bord(object):
     def _free_squares(self):
         """
         return a list of free squares
-        (1,1) is links bovenen
-        (2,4) is tweede rij van boven, helemaal rechts
         """
         free_squares = []
         for row in range(N):
             for column in range(N):
                 if not self.bord[row][column]:
-                    free_squares.append('%d%d' % (row+1,column+1))
+                    free_squares.append((row, column))
 
         return free_squares
+
+    def place_random_tile(self, color):
+        """
+        places a random tile, return position in game format ie: "24" -> [1][3]
+        """
+        place = choice(self._free_squares())
+
+        row = place[0]
+        column = place[1]
+
+        self.bord[row][column] = color
+
+        return '%d%d' % (row+1,column+1)
 
 
 if __name__ == '__main__':
@@ -144,4 +158,10 @@ if __name__ == '__main__':
     b.show()
     print "Left"
     b.move(LEFT)
+    b.show()
+    print "random RED: ",
+    print b.place_random_tile(RED)
+    b.show()
+    print "random BLUE: ",
+    print b.place_random_tile(BLUE)
     b.show()
