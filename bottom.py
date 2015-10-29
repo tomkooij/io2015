@@ -29,8 +29,13 @@ if __name__ == '__main__':
             if color != 0:
                 move = b.place_random_tile(color)
             else:
-                move =  'U'
-                b.move_game_notation('U')
+                # kies een shift die een score groter dan 0 geeft
+                for move in ['U','D','L','R']:
+                    temp = Bord(b.dump())  # maak kopie
+                    temp.move_game_notation('U')
+                    if temp.score():
+                        break
+
             print >>sys.stderr, "played: ", move
             print >>sys.stdout, move
 
@@ -66,8 +71,12 @@ if __name__ == '__main__':
             if color != 0:
                 move =  b.place_random_tile(color)
             else:
-                move = 'U'
-                b.move_game_notation('U')
+                # kies een shift die een score groter dan 0 geeft
+                for move in ['U','D','L','R']:
+                    temp = Bord(b.dump())  # maak kopie
+                    temp.move_game_notation('U')
+                    if temp.score():
+                        break
             #b.show()
             beurt += 1
             print >>sys.stderr, "we played: ", move
