@@ -28,7 +28,7 @@ class Bord(object):
 
     def __init__(self, startpos = None):
         if startpos is not None:
-            self.bord = [startpos]
+            self.bord = startpos
         else:
             self.bord = [[0] * N for i in range(N)]
 
@@ -173,6 +173,8 @@ class Bord(object):
                 score += abs(self.bord[i][j])
         return score
 
+    def dump(self):
+        return self.bord
 
 
 
