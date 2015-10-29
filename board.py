@@ -114,6 +114,8 @@ class Bord(object):
     def _free_squares(self):
         """
         return a list of free squares
+        (1,1) is links bovenen
+        (2,4) is tweede rij van boven, helemaal rechts
         """
         free_squares = []
         for row in range(N):
