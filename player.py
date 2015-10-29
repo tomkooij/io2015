@@ -19,9 +19,12 @@ if __name__ == '__main__':
         print >>sys.stderr, "read from stdin: ", inbuf
         beurt = 0
 
-        if inbuf == 'Start':
+        if inbuf == 'A':
+
             # we zijn player1 (wit)
             while 1:
+                print >>sys.stderr, "test!"
+
                 color = zet_type[beurt % 6]     # welke kleur?
 
                 if color != 0:
