@@ -8,6 +8,7 @@ DOWN = 2
 LEFT = 3
 RIGHT = 4
 
+
 class Bord(object):
     """
     2187 wordt met 2 spelers (rood, blauw)
@@ -110,12 +111,26 @@ class Bord(object):
         else:
             return shift_left(merge_equal(shift_left(rij[::-1])))[::-1]
 
+    def _free_squares(self):
+        """
+        return a list of free squares
+        """
+        free_squares = []
+        for row in range(N):
+            for column in range(N):
+                if not self.bord[row][column]:
+                    free_squares.append('%d%d' % (row+1,column+1))
+
+        return free_squares
+
+
 if __name__ == '__main__':
     b = Bord([[1,-1,0,0],[1,0,0,-1],[-1,1,1,0],[-1,0,0,0]])
     b.show()
     print "R:"
     b.move(RIGHT)
     b.show()
+    print b._free_squares()
     print "L:"
     b.move(LEFT)
     b.show()
