@@ -32,9 +32,10 @@ if __name__ == '__main__':
                 # kies een shift die een score groter dan 0 geeft
                 for move in ['U','D','L','R']:
                     temp = Bord(b.dump())  # maak kopie
-                    temp.move_game_notation('U')
+                    temp.move_game_notation(move)
                     if temp.score():
                         break
+            b.move_game_notation(move)
 
             print >>sys.stderr, "played: ", move
             print >>sys.stdout, move
@@ -74,9 +75,11 @@ if __name__ == '__main__':
                 # kies een shift die een score groter dan 0 geeft
                 for move in ['U','D','L','R']:
                     temp = Bord(b.dump())  # maak kopie
-                    temp.move_game_notation('U')
+                    temp.move_game_notation(move)
                     if temp.score():
                         break
+            b.move_game_notation(move)
+
             #b.show()
             beurt += 1
             print >>sys.stderr, "we played: ", move
