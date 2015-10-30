@@ -33,7 +33,7 @@ class Bord(object):
 
     def __init__(self, startpos = None):
         if startpos is not None:
-            self.bord = deepcopy(startpos)  # neem nieuwe rij!!
+            self.bord = startpos
         else:
             self.bord = [[0] * N for i in range(N)]
 
@@ -41,11 +41,12 @@ class Bord(object):
         for i in range(N):
             for j in range(N):
                 if self.bord[i][j]:
-                    print >>sys.stderr, '%4d' % copysign(3**(abs(self.bord[i][j])-1),self.bord[i][j]),
+                    #print >>sys.stderr, '%4d' % copysign(3**(abs(self.bord[i][j])-1),self.bord[i][j]),
+                    print >>sys.stderr, '%4d' % self.bord[i][j],
 		else:
                     print >>sys.stderr, '   .',
             print >>sys.stderr, '|\n'
-        print >>sys.stderr, '--------------------\n'
+        print >>sys.stderr, '----------------\n'
 
     def rotate(self, number_of_rotations):    # roteer links om
         for i in range(number_of_rotations):
@@ -209,11 +210,11 @@ if __name__ == '__main__':
             if color != 0:
                 move = b.place_random_tile(color)
             else:
-                huidige_toestand = b.dump()
+                huidige_toestand = deepcopy(b.dump())
                 # kies een shift die een score groter dan 0 geeft
                 # EN GEEN VERANDERING!!
                 for move in ['U','D','L','R']:
-                    temp = Bord(b.dump())  # maak kopie
+                    temp = Bord(deepcopy(b.dump()))  # maak kopie
                     temp.move_game_notation(move)
 
                     if temp.dump() == huidige_toestand: # geen verandering!
@@ -258,12 +259,13 @@ if __name__ == '__main__':
             if color != 0:
                 move =  b.place_random_tile(color)
             else:
-                huidige_toestand = b.dump()
+                huidige_toestand = deepcopy(b.dump())
                 # kies een shift die een score groter dan 0 geeft
                 # EN GEEN VERANDERING!!
                 for move in ['U','D','L','R']:
-                    temp = Bord(b.dump())  # maak kopie
+                    temp = Bord(deepcopy(b.dump()))  # maak kopie
                     temp.move_game_notation(move)
+
                     if temp.dump() == huidige_toestand: # geen verandering!
                         continue
                     if temp.score():  # gevonden!
