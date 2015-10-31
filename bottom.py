@@ -5,7 +5,7 @@
 from copy import deepcopy
 from math import copysign
 import random
-import sys
+from sys import stderr, stdout, stdin
 
 sign = lambda x: int(copysign(1, x))
 
@@ -19,6 +19,7 @@ RIGHT = 4
 RED = 1
 BLUE = -1
 
+
 class Bord(object):
     """
     2187 wordt met 2 spelers (rood, blauw)
@@ -28,10 +29,9 @@ class Bord(object):
     [0, 1, 0, -2] = leeg, 1 (rood), leeg, 3 (blauw)
         dwz: 3**(bord[i][j]-1)
     rood = positief, blauw negatief
-
     """
 
-    def __init__(self, startpos = None):
+    def __init__(self, startpos=None):
         if startpos is not None:
             self.bord = deepcopy(startpos)  # neem nieuwe rij!!
         else:
@@ -41,11 +41,12 @@ class Bord(object):
         for i in range(N):
             for j in range(N):
                 if self.bord[i][j]:
-                    print >>sys.stderr, '%4d' % copysign(3**(abs(self.bord[i][j])-1),self.bord[i][j]),
-		else:
-                    print >>sys.stderr, '   .',
-            print >>sys.stderr, '|\n'
-        print >>sys.stderr, '--------------------\n'
+                    print >>stderr,\
+                        '%4d' % copysign(3**(abs(self.bord[i][j])-1),
+                                         self.bord[i][j]),
+                else:
+                    print >>stderr, '   .',
+            print >>stderr, '\n'
 
     def rotate(self, number_of_rotations):    # roteer links om
         for i in range(number_of_rotations):
@@ -55,26 +56,26 @@ class Bord(object):
                     self.bord[i][3-j] = y[j][i]
 
     def move(self, direction=UP):
-        if direction==LEFT:
+        if direction == LEFT:
             self.merge()
 
-        elif direction==RIGHT:
+        elif direction == RIGHT:
             self.merge(mergeleft=False)
 
-        elif direction==UP:
+        elif direction == UP:
             # omhoog is 3x linksom, links merge, 1x linksom
             self.rotate(3)
             self.merge()
             self.rotate(1)
 
-        elif direction==DOWN:
+        elif direction == DOWN:
             # omlaag ook via rotaties.
             self.rotate(1)
             self.merge()
             self.rotate(3)
 
         else:
-            print >>sys.stderr, "illegal move: ", direction
+            print >>stderr, "illegal move: ", direction
             assert(0)
 
     def place(self, row, column, kleur):
@@ -99,11 +100,11 @@ class Bord(object):
             """
             [0,1,0,0,1] --> [1,1,0,0,0]
             """
-            for i,number in enumerate(rij):
+            for i, number in enumerate(rij):
                 if not number:  # leeg vlakje?
-                    for j,volgende in enumerate(rij[i:]): # vanaf i tot einde lijst
+                    for j, volgende in enumerate(rij[i:]):  # i tot einde lijst
                         if volgende:  # getal?
-                            rij[i] = volgende  # zet het getal op de plek van de 0
+                            rij[i] = volgende  # zet het getal op de plek van 0
                             rij[i+j] = 0     # zet een nul op die plek
                             break
             return rij
@@ -144,21 +145,18 @@ class Bord(object):
         """
         places a random tile, return position in game format ie: "24" -> [1][3]
         """
-        place = random.choice(self._free_squares())
-
-        row = place[0]
-        column = place[1]
+        row, column = random.choice(self._free_squares())
 
         self.bord[row][column] = int(kleur)
 
-        return '%d%d' % (row+1,column+1)
+        return '%d%d' % (row+1, column+1)
 
     def move_game_notation(self, move, color=RED):
         """
         verwerk een zet in "game notation"
         move => str '23' of 'U'
         """
-        if len(move)==2:
+        if len(move) == 2:
             self.place(int(move[0])-1, int(move[1])-1, color)
         elif move == 'U':
             self.move(UP)
@@ -169,7 +167,7 @@ class Bord(object):
         elif move == 'L':
             self.move(LEFT)
         else:
-            print >>sys.stderr, "illegal move!"
+            print >>stderr, "illegal move!"
             assert(0)
 
     def score(self):
@@ -182,9 +180,6 @@ class Bord(object):
     def dump(self):
         return self.bord
 
-
-
-
 BLUE = -1
 RED = 1
 SHIFT = 0
@@ -193,17 +188,17 @@ zet_type = [BLUE, RED, RED, BLUE, SHIFT, SHIFT]
 if __name__ == '__main__':
 
     b = Bord()
-    print >>sys.stderr, "bottom.py 2187 Bot."
+    print >>stderr, "bottom.py 2187 Bot."
 
-    inbuf = sys.stdin.readline().split()[0]
-    print >>sys.stderr, "read from stdin: ", inbuf
+    inbuf = stdin.readline().split()[0]
+    print >>stderr, "read from stdin: ", inbuf
     beurt = 0
 
     if inbuf == 'A':
         # we zijn player1 (wit)
-        print >>sys.stderr, "Wit!"
+        print >>stderr, "Wit!"
         while 1:
-            print >>sys.stderr, "beurt: ", beurt
+            print >>stderr, "beurt: ", beurt
             color = zet_type[beurt % 6]     # welke kleur?
 
             if color != 0:
@@ -212,25 +207,25 @@ if __name__ == '__main__':
                 huidige_toestand = b.dump()
                 # kies een shift die een score groter dan 0 geeft
                 # EN GEEN VERANDERING!!
-                for move in ['U','D','L','R']:
+                for move in ['U', 'D', 'L', 'R']:
                     temp = Bord(b.dump())  # maak kopie
                     temp.move_game_notation(move)
 
-                    if temp.dump() == huidige_toestand: # geen verandering!
+                    if temp.dump() == huidige_toestand:  # geen verandering!
                         continue
                     if temp.score():  # gevonden!
                         break
-            	b.move_game_notation(move)
+                b.move_game_notation(move)
 
-            print >>sys.stderr, "played: ", move
-            print >>sys.stdout, move
+            print >>stderr, "played: ", move
+            print >>stdout, move
 
             b.show()
             beurt += 1
-            sys.stdout.flush()
-            sys.stderr.flush()
-            inbuf = sys.stdin.readline().split()[0]
-            print >>sys.stderr, "read from stdin: ", inbuf
+            stdout.flush()
+            stderr.flush()
+            inbuf = stdin.readline().split()[0]
+            print >>stderr, "read from stdin: ", inbuf
 
             if inbuf == 'Quit':
                 break
@@ -239,12 +234,12 @@ if __name__ == '__main__':
             beurt += 1
     else:
 
-        print >>sys.stderr, "Zwart!"
+        print >>stderr, "Zwart!"
         while 1:
 
-            print >>sys.stderr, "beurt: ", beurt
-            inbuf = sys.stdin.readline().split()[0]
-            print >>sys.stderr, "read from stdin: ", inbuf
+            print >>stderr, "beurt: ", beurt
+            inbuf = stdin.readline().split()[0]
+            print >>stderr, "read from stdin: ", inbuf
 
             if inbuf == 'Quit':
                 break
@@ -253,28 +248,28 @@ if __name__ == '__main__':
             b.show()
             beurt += 1
 
-            color =  int(zet_type[beurt % 6])    # welke kleur?
+            color = int(zet_type[beurt % 6])    # welke kleur?
 
             if color != 0:
-                move =  b.place_random_tile(color)
+                move = b.place_random_tile(color)
             else:
                 huidige_toestand = b.dump()
                 # kies een shift die een score groter dan 0 geeft
                 # EN GEEN VERANDERING!!
-                for move in ['U','D','L','R']:
+                for move in ['U', 'D', 'L', 'R']:
                     temp = Bord(b.dump())  # maak kopie
                     temp.move_game_notation(move)
-                    if temp.dump() == huidige_toestand: # geen verandering!
+                    if temp.dump() == huidige_toestand:  # geen verandering!
                         continue
                     if temp.score():  # gevonden!
                         break
-            	b.move_game_notation(move)
+                b.move_game_notation(move)
 
             b.show()
             beurt += 1
-            print >>sys.stderr, "we played: ", move
+            print >>stderr, "we played: ", move
 
-            print >>sys.stdout, move
+            print >>stdout, move
 
-            sys.stderr.flush()
-            sys.stdout.flush()
+            stderr.flush()
+            stdout.flush()
